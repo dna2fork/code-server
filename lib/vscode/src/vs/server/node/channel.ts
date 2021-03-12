@@ -355,7 +355,7 @@ class VariableResolverService extends AbstractVariableResolverService {
 					NOTE@coder: not sure where we could get this from. This is new.
 					@jsjoeio 3/11/21
 				*/
-				return undefined
+				return undefined;
 			},
 			getExecPath: (): string | undefined => {
 				// Assuming that resolverEnv is just for use in the resolver and not for
