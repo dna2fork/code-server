@@ -33,7 +33,7 @@ import { TerminalDataBufferer } from 'vs/platform/terminal/common/terminalDataBu
 import * as terminalEnvironment from 'vs/workbench/contrib/terminal/common/terminalEnvironment';
 import { getMainProcessParentEnv } from 'vs/workbench/contrib/terminal/node/terminalEnvironment';
 import { TerminalProcess } from 'vs/platform/terminal/node/terminalProcess';
-import { ISetTerminalLayoutInfoArgs, IGetTerminalLayoutInfoArgs } from 'vs/platform/terminal/common/terminalProcess'
+import { ISetTerminalLayoutInfoArgs, IGetTerminalLayoutInfoArgs } from 'vs/platform/terminal/common/terminalProcess';
 import { AbstractVariableResolverService } from 'vs/workbench/services/configurationResolver/common/variableResolver';
 import { ExtensionScanner, ExtensionScannerInput } from 'vs/workbench/services/extensions/node/extensionPoints';
 

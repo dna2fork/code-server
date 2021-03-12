@@ -234,7 +234,7 @@ export class Vscode {
 		*/
 		const logService = new MultiplexLogService([
 			new ConsoleLogger(getLogLevel(environmentService)),
-			new SpdLogLogger(RemoteExtensionLogFileName, path.join(environmentService.logsPath, "server.log"), false, getLogLevel(environmentService))
+			new SpdLogLogger(RemoteExtensionLogFileName, path.join(environmentService.logsPath, 'server.log'), false, getLogLevel(environmentService))
 		]);
 		const fileService = new FileService(logService);
 		fileService.registerProvider(Schemas.file, new DiskFileSystemProvider(logService));
