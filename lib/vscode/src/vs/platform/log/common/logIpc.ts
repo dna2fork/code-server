@@ -67,6 +67,7 @@ export class LoggerChannel implements IServerChannel {
 			case 'createLogger': this.createLogger(URI.revive(arg[0]), arg[1]); return;
 			case 'log': return this.log(URI.revive(arg[0]), arg[1]);
 			case 'consoleLog': return this.consoleLog(arg[0], arg[1]);
+			case 'setLevel': return this.setLevel(arg[0], this.loggers);
 		}
 
 		throw new Error(`Call not found: ${command}`);
@@ -74,6 +75,17 @@ export class LoggerChannel implements IServerChannel {
 
 	private createLogger(file: URI, options: ILoggerOptions): void {
 		this.loggers.set(file.toString(), this.loggerService.createLogger(file, options));
+	}
+
+	/*
+		NOTE@coder: add this `setLevel` method ourselves.
+
+		We believe this could be an upstream bug but not sure.
+		Patching it this way for now.
+		3/15/21 jsjoeio
+	*/
+	private setLevel(level: LogLevel, loggers: Map<string, ILogger>): void {
+		loggers.forEach(logger => logger.setLevel(level))
 	}
 
 	private consoleLog(level: LogLevel, args: any[]): void {
