@@ -250,6 +250,12 @@ export class Vscode {
 			...environmentService.extraBuiltinExtensionPaths,
 		];
 
+		/*
+			NOTE@coder: we changed this channel registration from LogLevel to LogLevelChannel
+			because it changed upstream.
+
+			3/15/21 jsjoeio
+		*/
 		this.ipc.registerChannel('logger', new LogLevelChannel(logService));
 		this.ipc.registerChannel(ExtensionHostDebugBroadcastChannel.ChannelName, new ExtensionHostDebugBroadcastChannel());
 
