@@ -29,7 +29,7 @@ import { ServiceCollection } from 'vs/platform/instantiation/common/serviceColle
 import { ILocalizationsService } from 'vs/platform/localizations/common/localizations';
 import { LocalizationsService } from 'vs/platform/localizations/node/localizations';
 import { ConsoleLogger, getLogLevel, ILoggerService, ILogService, MultiplexLogService } from 'vs/platform/log/common/log';
-import { LoggerChannel } from 'vs/platform/log/common/logIpc';
+import { LogLevelChannel } from 'vs/platform/log/common/logIpc';
 import { LoggerService } from 'vs/platform/log/node/loggerService';
 import { SpdLogLogger } from 'vs/platform/log/node/spdlogLog';
 import product from 'vs/platform/product/common/product';
@@ -250,7 +250,7 @@ export class Vscode {
 			...environmentService.extraBuiltinExtensionPaths,
 		];
 
-		this.ipc.registerChannel('logger', new LoggerChannel(loggerService));
+		this.ipc.registerChannel('logger', new LogLevelChannel(logService));
 		this.ipc.registerChannel(ExtensionHostDebugBroadcastChannel.ChannelName, new ExtensionHostDebugBroadcastChannel());
 
 		this.services.set(ILogService, logService);
