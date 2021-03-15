@@ -30,16 +30,20 @@ Please search for existing issues before filing, as they may contain additional 
 3.
 
 ## Expected
+
 <!-- What should happen? -->
 
 ## Actual
+
 <!-- What actually happens? -->
 
 ## Screenshot
+
 <!-- Ideally provide a screenshot, gif, video or screenrecording -->
 
 ## Notes
 
 <!-- If you can reproduce the issue on vanilla VS Code,
 please file the issue at the VS Code repository instead. -->
+
 This issue cannot be reproduced in VS Code: Yes/No
