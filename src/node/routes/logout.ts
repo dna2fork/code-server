@@ -12,6 +12,10 @@ router.get("/", async (req, res) => {
     sameSite: "lax",
   })
 
-  const to = (typeof req.query.to === "string" && req.query.to) || "/"
-  return redirect(req, res, to, { to: undefined, base: undefined })
+  const to = (typeof req.query.to === "string" && req.query.to) || (
+     process.env.EXTERNAL_AUTH_HOST
+  )
+  res.writeHead(302, { Location: to })
+  res.end()
+  // return redirect(req, res, to, { to: undefined, base: undefined })
 })

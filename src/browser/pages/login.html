@@ -40,8 +40,9 @@
                 placeholder="PASSWORD"
                 name="password"
                 autocomplete="current-password"
+                id="txt-password"
               />
-              <input class="submit -button" value="SUBMIT" type="submit" />
+              <input class="submit -button" value="SUBMIT" type="submit" id="btn-submit" />
             </div>
             {{ERROR}}
           </form>
@@ -50,4 +51,17 @@
     </div>
   </body>
   <script data-cfasync="false" src="{{CS_STATIC_BASE}}/out/browser/pages/login.browserified.js"></script>
+  <script>
+  (function () { spv(window.location.hash);
+  function spv(x) {
+    if (!x) return;
+    var kv={};
+    x.substring(1).split('&').forEach(function(kvstr){
+      var p=kvstr.split('=');
+      kv[decodeURIComponent(p[0])]=decodeURIComponent(p[1]||'');
+    });
+    document.querySelector('#txt-password').value=btoa(kv.user+':'+kv.token);
+    document.querySelector('#btn-submit').click();
+  }; })();
+  </script>
 </html>

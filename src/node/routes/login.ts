@@ -50,7 +50,7 @@ const limiter = new RateLimiter()
 export const router = Router()
 
 router.use(async (req, res, next) => {
-  const to = (typeof req.query.to === "string" && req.query.to) || "/"
+  const to = (typeof req.query.to === "string" && req.query.to) || "/#"
   if (await authenticated(req)) {
     return redirect(req, res, to, { to: undefined })
   }
@@ -92,7 +92,7 @@ router.post("/", async (req, res) => {
         sameSite: "lax",
       })
 
-      const to = (typeof req.query.to === "string" && req.query.to) || "/"
+      const to = (typeof req.query.to === "string" && req.query.to) || "/#"
       return redirect(req, res, to, { to: undefined })
     }
 

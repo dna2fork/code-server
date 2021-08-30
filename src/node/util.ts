@@ -7,6 +7,7 @@ import { promises as fs } from "fs"
 import * as net from "net"
 import * as os from "os"
 import * as path from "path"
+import * as https from "https"
 import safeCompare from "safe-compare"
 import * as util from "util"
 import xdgBasedir from "xdg-basedir"
@@ -256,12 +257,48 @@ export async function handlePasswordValidation({
 
   switch (passwordMethod) {
     case "PLAIN_TEXT": {
-      const isValid = passwordFromArgs ? safeCompare(passwordFromRequestBody, passwordFromArgs) : false
-      passwordValidation.isPasswordValid = isValid
+      const hashedPassword = await hash(passwordFromRequestBody);
+      const hashedPassword0 = await hash(passwordFromArgs);
+      passwordValidation.hashedPassword = hashedPassword;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return new Promise((r: any, e: any): Promise<any> => {
+         const usertoken = Buffer.from(passwordFromRequestBody, 'base64').toString();
+         const parts = usertoken.split(':');
+         const username = parts[0];
+         const token = parts.slice(1).join(':');
+         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         const req = https.request({
+            hostname: process.env.EXTERNAL_AUTH_HOST,
+            port: 443,
+            path: '/check',
+            method: 'POST',
+         }, (res: any) => {
+            if (res.statusCode !== 200) {
+               passwordValidation.isPasswordValid = false;
+            } else {
+               passwordValidation.hashedPassword = hashedPassword0;
+               passwordValidation.isPasswordValid = true;
+            }
+            r(passwordValidation);
+         });
+         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         req.on('error', (err: any) => e(err));
+         req.write(`target=${
+            env.process.AUTH_TARGET_USER
+         }&user=${
+            encodeURIComponent(username)
+         }&token=${
+            encodeURIComponent(token)
+         }`);
+         req.end();
+      });
+      break;
+      // const isValid = passwordFromArgs ? safeCompare(passwordFromRequestBody, passwordFromArgs) : false
+      // passwordValidation.isPasswordValid = isValid
 
-      const hashedPassword = await hash(passwordFromRequestBody)
-      passwordValidation.hashedPassword = hashedPassword
-      break
+      // const hashedPassword = await hash(passwordFromRequestBody)
+      // passwordValidation.hashedPassword = hashedPassword
+      // break
     }
     case "SHA256": {
       const isValid = isHashLegacyMatch(passwordFromRequestBody, hashedPasswordFromArgs || "")
